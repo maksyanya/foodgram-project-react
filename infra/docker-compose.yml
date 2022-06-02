@@ -15,8 +15,9 @@ services:
     restart: always
 
   backend:
-    build: 
-      context: ../backend
+    image: maksimarzamastsev/foodgram-frontend:latest
+    # build: 
+    #  context: ../backend
     restart: always
     depends_on:
       - db
