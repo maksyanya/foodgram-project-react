@@ -28,4 +28,4 @@ class Command(BaseCommand):
 
 app = Command()
 app.handle()
-print("Ингредиенты успешно загружены в базу!")
+print("Ингредиенты загружены в базу!")
