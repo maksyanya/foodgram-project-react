@@ -30,7 +30,6 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
         return not request.user.is_anonymous and (Favorite.objects.filter(
             user=request.user, recipe__id=obj.id).exists())
 
-
     def get_is_in_shopping_cart(self, obj):
         """Process the "is_in_shopping_cart" parameter."""
         request = self.context.get('request')

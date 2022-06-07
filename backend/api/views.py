@@ -19,9 +19,9 @@ from recipes.models import (Cart, Favorite, Ingredient, IngredientRecipe,
 from users.models import User
 from .filters import IngredientSearchFilter, RecipeFilters
 from .serializers import (CartSerializer, FavoriteSerializer,
-                        IngredientSerializer, RecipeSerializer,
-                        RegistrationSerializer, SubscriptionSerializer,
-                        TagSerializer)
+                          IngredientSerializer, RecipeSerializer,
+                          RegistrationSerializer, SubscriptionSerializer,
+                          TagSerializer)
 
 
 class CreateUserView(UserViewSet):

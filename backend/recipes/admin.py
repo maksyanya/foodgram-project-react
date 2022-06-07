@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from users.models import User
 from .models import (Cart, Favorite, Subscribe, Ingredient,
-                    IngredientRecipe, Recipe, Tag, TagRecipe)
+                     IngredientRecipe, Recipe, Tag, TagRecipe)
 
 
 class IngredientRecipeInline(admin.TabularInline):
