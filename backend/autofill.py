@@ -8,7 +8,6 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
     """Working with the database."""
-
     help = 'Uploading Ingredients data-set'
 
     def handle(self, *args, **options):

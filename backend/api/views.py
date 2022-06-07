@@ -14,29 +14,17 @@ from reportlab.pdfgen import canvas
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
-from recipes.models import Cart
-from recipes.models import Favorite
-from recipes.models import Ingredient
-from recipes.models import IngredientRecipe
-from recipes.models import Recipe
-from recipes.models import Subscribe
-from recipes.models import Tag
+from recipes.models import (Cart, Favorite, Ingredient, IngredientRecipe,  
+                            Recipe, Subscribe, Tag)
 from users.models import User
-from .filters import IngredientSearchFilter
-from .filters import RecipeFilters
-from .serializers import CartSerializer
-from .serializers import FavoriteSerializer
-from .serializers import IngredientSerializer
-from .serializers import RecipeSerializer
-from .serializers import RecipeSerializerPost
-from .serializers import RegistrationSerializer
-from .serializers import SubscriptionSerializer
-from .serializers import TagSerializer
+from .filters import IngredientSearchFilter, RecipeFilters
+from .serializers import (CartSerializer, FavoriteSerializer, IngredientSerializer,
+                          RecipeSerializer, RegistrationSerializer, 
+                          SubscriptionSerializer, TagSerializer)
 
 
 class CreateUserView(UserViewSet):
     """Processing the users model."""
-
     serializer_class = RegistrationSerializer
 
     def get_queryset(self):
@@ -46,7 +34,6 @@ class CreateUserView(UserViewSet):
 
 class SubscribeViewSet(viewsets.ModelViewSet):
     """Processing the subscriptions model."""
-
     serializer_class = SubscriptionSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -74,7 +61,6 @@ class SubscribeViewSet(viewsets.ModelViewSet):
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     """Processing the tags model."""
-
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = None
@@ -82,7 +68,6 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """Processing the recipes model."""
-
     queryset = Recipe.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_class = RecipeFilters
@@ -96,13 +81,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Select serializer depend on the request."""
         if self.request.method == 'GET':
             return RecipeSerializer
-        else:
-            return RecipeSerializerPost
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
     """Processing the ingredients model."""
-
     queryset = Ingredient.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = IngredientSerializer
@@ -113,7 +95,6 @@ class IngredientViewSet(viewsets.ModelViewSet):
 
 class BaseFavoriteCartViewSet(viewsets.ModelViewSet):
     """Processing the favorite recipes and cart model."""
-
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
@@ -136,7 +117,6 @@ class BaseFavoriteCartViewSet(viewsets.ModelViewSet):
 
 class CartViewSet(BaseFavoriteCartViewSet):
     """Processing the cart model."""
-
     serializer_class = CartSerializer
     queryset = Cart.objects.all()
     model = Cart
@@ -144,7 +124,6 @@ class CartViewSet(BaseFavoriteCartViewSet):
 
 class FavoriteViewSet(BaseFavoriteCartViewSet):
     """Processing the favorite recipes models."""
-
     serializer_class = FavoriteSerializer
     queryset = Favorite.objects.all()
     model = Favorite
@@ -152,7 +131,6 @@ class FavoriteViewSet(BaseFavoriteCartViewSet):
 
 class DownloadCart(viewsets.ModelViewSet):
     """Downloading the shopping list file."""
-
     permission_classes = [permissions.IsAuthenticated]
 
     @staticmethod
