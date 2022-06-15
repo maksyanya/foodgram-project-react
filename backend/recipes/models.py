@@ -83,7 +83,7 @@ class Recipe(models.Model):
         verbose_name='Описание рецепта',
         help_text='Введите описания рецепта')
     cooking_time = models.IntegerField(
-        validators=(MinValueValidator(1)),
+        validators=[MinValueValidator(1)],
         verbose_name='Время приготовления',
         help_text='Введите время приготовления'
     )
@@ -192,7 +192,7 @@ class IngredientRecipe(models.Model):
     )
     amount = models.IntegerField(
         default=1,
-        validators=(MinValueValidator(1)),
+        validators=[MinValueValidator(1)],
         verbose_name='Количество продукта',
         help_text='Введите количество продукта'
     )
