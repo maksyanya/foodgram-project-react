@@ -135,7 +135,7 @@ class Cart(models.Model):
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
         constraints = [
-            models.UniqueConstraint(fields=('user', 'recipe'),
+            models.UniqueConstraint(fields=['user', 'recipe'],
                                     name='unique_cart')
         ]
 
@@ -166,7 +166,7 @@ class Subscribe(models.Model):
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
         constraints = [
-            models.UniqueConstraint(fields=('user', 'following'),
+            models.UniqueConstraint(fields=['user', 'following'],
                                     name='unique_subscribe')
         ]
 
@@ -202,7 +202,7 @@ class IngredientRecipe(models.Model):
         verbose_name = 'Продукты в рецепте'
         verbose_name_plural = 'Продукты в рецепте'
         constraints = [
-            models.UniqueConstraint(fields=('ingredient', 'recipe'),
+            models.UniqueConstraint(fields=['ingredient', 'recipe'],
                                     name='unique_ingredientrecipe')
         ]
 
@@ -230,7 +230,7 @@ class TagRecipe(models.Model):
         verbose_name = 'Теги рецепта'
         verbose_name_plural = 'Теги рецепта'
         constraints = [
-            models.UniqueConstraint(fields=('tag', 'recipe'),
+            models.UniqueConstraint(fields=['tag', 'recipe'],
                                     name='unique_tagrecipe')
         ]
 
@@ -260,7 +260,7 @@ class Favorite(models.Model):
         verbose_name = 'Избранный'
         verbose_name_plural = 'Избранные'
         constraints = [
-            models.UniqueConstraint(fields=('user', 'recipe'),
+            models.UniqueConstraint(fields=['user', 'recipe'],
                                     name='unique_favorite')
         ]
 
