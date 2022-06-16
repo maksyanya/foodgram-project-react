@@ -6,8 +6,6 @@ from django.db import models
 
 class User(AbstractUser):
     """Creating own model of user."""
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'password']
 
     username = models.CharField(
         db_index=True,
@@ -33,6 +31,8 @@ class User(AbstractUser):
         default=False,
         verbose_name='Подписка на данного пользователя',
         help_text='Отметьте для подписки на данного пользователя')
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'password']
 
     def __str__(self):
         """Represent the model by a string."""

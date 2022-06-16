@@ -4,19 +4,23 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (CartViewSet, CreateUserView, DownloadCart,
-                    FavoriteViewSet, IngredientViewSet,
-                    RecipeViewSet, SubscribeViewSet, TagViewSet)
-
+from .views import CartViewSet
+from .views import CreateUserView
+from .views import DownloadCart
+from .views import FavoriteViewSet
+from .views import IngredientViewSet
+from .views import RecipeViewSet
+from .views import SubscribeViewSet
+from .views import TagViewSet
 
 app_name = 'api'
 router = DefaultRouter()
 
 
 router.register('users', CreateUserView, basename='users')
-router.register('tags', TagViewSet, basename='tags')
-router.register('recipes', RecipeViewSet, basename='recipes')
-router.register('ingredients', IngredientViewSet, basename='ingredients')
+router.register(r'tags', TagViewSet, basename='tags')
+router.register(r'recipes', RecipeViewSet, basename='recipes')
+router.register(r'ingredients', IngredientViewSet, basename='ingredients')
 
 
 urlpatterns = [

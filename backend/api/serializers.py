@@ -4,17 +4,26 @@ from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from users.models import User
-from recipes.models import (Cart, Favorite, Ingredient, IngredientRecipe,
-                            Recipe, Subscribe, Tag, TagRecipe)
+from recipes.models import Cart
+from recipes.models import Favorite
+from recipes.models import Ingredient
+from recipes.models import IngredientRecipe
+from recipes.models import Recipe
+from recipes.models import Subscribe
+from recipes.models import Tag
+from recipes.models import TagRecipe
 
 
 class CommonSubscribed(metaclass=serializers.SerializerMetaclass):
     """Determing the user's subscription to the author."""
+
     is_subscribed = serializers.SerializerMethodField()
 
     def get_is_subscribed(self, obj):
         """Process the "is_subscribed" parametr."""
         request = self.context.get('request')
+        if request.user.is_anonymous:
+            return False
         if Subscribe.objects.filter(
                 user=request.user, following__id=obj.id).exists():
             return True
@@ -24,6 +33,7 @@ class CommonSubscribed(metaclass=serializers.SerializerMetaclass):
 
 class CommonRecipe(metaclass=serializers.SerializerMetaclass):
     """Determining favorite recipes and ingredients in the shopping cart."""
+
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
 
@@ -52,6 +62,7 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
 
 class CommonCount(metaclass=serializers.SerializerMetaclass):
     """Determining the number of author's recipes."""
+
     recipes_count = serializers.SerializerMethodField()
 
     def get_recipes_count(self, obj):
@@ -64,6 +75,7 @@ class RegistrationSerializer(UserCreateSerializer, CommonSubscribed):
 
     class Meta:
         """Meta-parameter of serializer of the user model."""
+
         model = User
         fields = ('id', 'username', 'email', 'first_name',
                   'last_name', 'is_subscribed', 'password')
@@ -83,6 +95,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Meta-parameter of serializer of ingredients model."""
+
         model = Ingredient
         fields = ('id', 'name', 'measurement_unit')
         extra_kwargs = {'name': {'required': False},
@@ -91,6 +104,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 class IngredientAmountSerializer(serializers.ModelSerializer):
     """Creating serializer of the ingredients model in the recipe."""
+
     id = serializers.ReadOnlyField(source='ingredient.id')
     name = serializers.ReadOnlyField(source='ingredient.name')
     measurement_unit = serializers.ReadOnlyField(
@@ -99,16 +113,19 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Meta-parameter serializer of the ingredients model in the recipe."""
+
         model = IngredientRecipe
         fields = ('id', 'name', 'measurement_unit', 'amount')
 
 
 class IngredientAmountRecipeSerializer(serializers.ModelSerializer):
     """Creating serializer of the ingredients amount."""
+
     id = serializers.IntegerField(source='ingredient.id')
 
     class Meta:
         """Meta-parameter of serializer of the ingredients amount."""
+
         model = IngredientRecipe
         fields = ('id', 'amount')
 
@@ -118,6 +135,7 @@ class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Meta-parameter of serializer of the tags model."""
+
         model = Tag
         fields = '__all__'
         extra_kwargs = {'name': {'required': False},
@@ -127,6 +145,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class FavoriteSerializer(serializers.Serializer):
     """Creating serializer of favorite recipes."""
+
     id = serializers.IntegerField()
     name = serializers.CharField()
     cooking_time = serializers.IntegerField()
@@ -135,6 +154,7 @@ class FavoriteSerializer(serializers.Serializer):
 
 class CartSerializer(serializers.Serializer):
     """Creating serializer of the cart."""
+
     id = serializers.IntegerField()
     name = serializers.CharField()
     cooking_time = serializers.IntegerField()
@@ -144,6 +164,7 @@ class CartSerializer(serializers.Serializer):
 class RecipeSerializer(serializers.ModelSerializer,
                        CommonRecipe):
     """Creating serializer of the recipes model."""
+
     author = RegistrationSerializer(read_only=True)
     tags = TagSerializer(many=True)
     ingredients = IngredientAmountSerializer(
@@ -153,6 +174,7 @@ class RecipeSerializer(serializers.ModelSerializer,
 
     class Meta:
         """Meta-parameter of serializer of the recipes model."""
+
         model = Recipe
         fields = ('id', 'author', 'name', 'image', 'text',
                   'ingredients', 'tags', 'cooking_time',
@@ -162,6 +184,7 @@ class RecipeSerializer(serializers.ModelSerializer,
 class RecipeSerializerPost(serializers.ModelSerializer,
                            CommonRecipe):
     """Creating serializer of the ingredients post model."""
+
     author = RegistrationSerializer(read_only=True)
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
@@ -172,6 +195,7 @@ class RecipeSerializerPost(serializers.ModelSerializer,
 
     class Meta:
         """Meta-parameter of serializer of the ingredients post model."""
+
         model = Recipe
         fields = ('id', 'author', 'name', 'image', 'text',
                   'ingredients', 'tags', 'cooking_time',
@@ -255,6 +279,7 @@ class RecipeMinifieldSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Meta-parameters of simplified display of the recipes model."""
+
         model = Recipe
         fields = ('id', 'name', 'cooking_time', 'image')
 
@@ -262,10 +287,12 @@ class RecipeMinifieldSerializer(serializers.ModelSerializer):
 class SubscriptionSerializer(serializers.ModelSerializer,
                              CommonSubscribed, CommonCount):
     """Creating serializer of the subscriptions list."""
+
     recipes = serializers.SerializerMethodField()
 
     class Meta:
         """Meta-parameters of serializer of the subscriptions list."""
+
         model = User
         fields = ('email', 'id', 'username', 'first_name',
                   'last_name', 'is_subscribed', 'recipes', 'recipes_count')
