@@ -12,7 +12,7 @@ SECRET_KEY = 'django-insecure-e=l9hx+^2o0f@3k)-560@81kjde0k_0r@_993&y7^p$ign3b$w
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '51.250.111.218', 'localhost', 'backend']
+ALLOWED_HOSTS = ['127.0.0.1', '51.250.111.218', 'localhost', 'backend', 'enjoymeal.ru']
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost', 'backend']
 
