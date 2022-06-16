@@ -21,7 +21,7 @@ from .filters import IngredientSearchFilter, RecipeFilters
 from .serializers import (CartSerializer, FavoriteSerializer,
                           IngredientSerializer, RecipeSerializer,
                           RegistrationSerializer, SubscriptionSerializer,
-                          TagSerializer)
+                          TagSerializer, RecipeSerializerPost)
 
 
 class CreateUserView(UserViewSet):
@@ -82,6 +82,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Select serializer depend on the request."""
         if self.request.method == 'GET':
             return RecipeSerializer
+        else:
+            return RecipeSerializerPost
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
