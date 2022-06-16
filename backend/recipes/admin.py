@@ -19,7 +19,6 @@ class TagRecipeInline(admin.TabularInline):
     extra = 0
 
 
-@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     """Parametrs of the user admin zone."""
     list_display = ('username', 'email', 'id')
@@ -28,7 +27,6 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('username', 'email')
 
 
-@admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     """Parametrs of the ingredient admin zone."""
     list_display = ('name', 'measurement_unit')
@@ -37,7 +35,6 @@ class IngredientAdmin(admin.ModelAdmin):
     list_filter = ('name',)
 
 
-@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     """Parametrs of the tags admin zone."""
     list_display = ('name', 'color', 'slug')
@@ -46,7 +43,6 @@ class TagAdmin(admin.ModelAdmin):
     list_filter = ('name',)
 
 
-@admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     """Parametrs of the cart admin zone."""
     list_display = ('user', 'recipe', 'id')
@@ -55,7 +51,6 @@ class CartAdmin(admin.ModelAdmin):
     list_filter = ('user',)
 
 
-@admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     """Parametrs of the favorite recipes admin zone."""
     list_display = ('user', 'recipe')
@@ -64,7 +59,6 @@ class FavoriteAdmin(admin.ModelAdmin):
     list_filter = ('user',)
 
 
-@admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     """Parametrs of the recipes admin zone."""
     inlines = (IngredientRecipeInline, TagRecipeInline,)
@@ -80,10 +74,18 @@ class RecipeAdmin(admin.ModelAdmin):
     count_favorite.short_description = 'Число добавлении в избранное'
 
 
-@admin.register(Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
     """Parametrs of the admin zone."""
     list_display = ('user', 'following')
     search_fields = ('user', )
     empty_value_display = '-пусто-'
     list_filter = ('user',)
+
+
+admin.site.register(Cart, CartAdmin)
+admin.site.register(Favorite, FavoriteAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(Subscribe, SubscribeAdmin)
+admin.site.register(Ingredient, IngredientAdmin)
+admin.site.register(Tag, TagAdmin)
+admin.site.register(Recipe, RecipeAdmin)
